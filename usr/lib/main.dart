@@ -1,123 +1,388 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const BioethanolApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class BioethanolApp extends StatelessWidget {
+  const BioethanolApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Bioethanol Project',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.orange,
+          primary: Colors.orange.shade800,
+          secondary: Colors.green.shade600,
+        ),
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          elevation: 2,
+        ),
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+        '/': (context) => const HomePage(),
       },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: const Text(
+          'Bioethanol Project',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text('$_counter', style: Theme.of(context).textTheme.headlineMedium),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.orange.shade50, Colors.white],
+          ),
+        ),
+        child: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20.0),
+              child: Column(
+                children: [
+                  Icon(Icons.science, size: 80, color: Colors.orange),
+                  SizedBox(height: 16),
+                  Text(
+                    'Making Bioethanol\nfrom Orange Juice',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Diploma Project Presentation',
+                    style: TextStyle(fontSize: 16, color: Colors.black54),
+                  ),
+                ],
+              ),
+            ),
+            _buildCard(
+              context,
+              '1. Introduction',
+              'What is bioethanol and why use oranges?',
+              Icons.info_outline,
+              const IntroScreen(),
+            ),
+            _buildCard(
+              context,
+              '2. Materials Required',
+              'Equipment and ingredients needed.',
+              Icons.list_alt,
+              const MaterialsScreen(),
+            ),
+            _buildCard(
+              context,
+              '3. Step-by-Step Process',
+              'Extraction, Fermentation, and Distillation.',
+              Icons.precision_manufacturing,
+              const ProcessScreen(),
+            ),
+            _buildCard(
+              context,
+              '4. Conclusion & Benefits',
+              'Environmental impact and uses.',
+              Icons.eco_outlined,
+              const ConclusionScreen(),
+            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget _buildCard(BuildContext context, String title, String subtitle, IconData icon, Widget destination) {
+    return Card(
+      elevation: 3,
+      margin: const EdgeInsets.only(bottom: 16.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => destination));
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.orange.shade100,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: Colors.orange.shade800, size: 28),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios, color: Colors.grey.shade400, size: 16),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// --- Detail Screens ---
+
+class IntroScreen extends StatelessWidget {
+  const IntroScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Introduction', style: TextStyle(color: Colors.white)),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.orange.shade200,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Center(
+                child: Icon(Icons.energy_savings_leaf, size: 80, color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text('What is Bioethanol?', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            const Text(
+              'Bioethanol is a renewable energy source made by fermenting the sugar components of plant materials. It is widely used as a biofuel additive for gasoline.',
+              style: TextStyle(fontSize: 16, height: 1.5),
+            ),
+            const SizedBox(height: 20),
+            const Text('Why Orange Juice?', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            const Text(
+              'Oranges and citrus waste are rich in fermentable sugars (glucose, fructose, and sucrose). Using spoiled oranges or orange peels/juice for bioethanol production is an excellent way to manage agricultural waste and produce sustainable energy.',
+              style: TextStyle(fontSize: 16, height: 1.5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MaterialsScreen extends StatelessWidget {
+  const MaterialsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final materials = [
+      'Orange Juice (Source of fermentable sugars)',
+      'Yeast (Saccharomyces cerevisiae - for fermentation)',
+      'Distilled Water',
+      'pH Meter or pH Strips',
+      'Fermentation Flask / Airlock system',
+      'Incubator (to maintain temperature around 30°C)',
+      'Distillation Apparatus (Flask, Condenser, Heat source)',
+      'Measuring Cylinders and Beakers',
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Materials Required', style: TextStyle(color: Colors.white)),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemCount: materials.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: const EdgeInsets.only(bottom: 12.0),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.orange.shade100,
+                child: Text('${index + 1}', style: TextStyle(color: Colors.orange.shade900, fontWeight: FontWeight.bold)),
+              ),
+              title: Text(materials[index], style: const TextStyle(fontSize: 16)),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ProcessScreen extends StatefulWidget {
+  const ProcessScreen({super.key});
+
+  @override
+  State<ProcessScreen> createState() => _ProcessScreenState();
+}
+
+class _ProcessScreenState extends State<ProcessScreen> {
+  int _currentStep = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Step-by-Step Process', style: TextStyle(color: Colors.white)),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: Stepper(
+        currentStep: _currentStep,
+        onStepContinue: () {
+          if (_currentStep < 3) {
+            setState(() => _currentStep += 1);
+          }
+        },
+        onStepCancel: () {
+          if (_currentStep > 0) {
+            setState(() => _currentStep -= 1);
+          }
+        },
+        steps: [
+          Step(
+            title: const Text('1. Extraction & Preparation', style: TextStyle(fontWeight: FontWeight.bold)),
+            content: const Text('Extract juice from the oranges. Filter the juice to remove large solid particles and pulp. Adjust the pH of the juice to around 4.5 to 5.0, which is optimal for yeast.'),
+            isActive: _currentStep >= 0,
+          ),
+          Step(
+            title: const Text('2. Inoculation', style: TextStyle(fontWeight: FontWeight.bold)),
+            content: const Text('Add the yeast (Saccharomyces cerevisiae) to the prepared orange juice. Mix it thoroughly to ensure the yeast is evenly distributed.'),
+            isActive: _currentStep >= 1,
+          ),
+          Step(
+            title: const Text('3. Fermentation', style: TextStyle(fontWeight: FontWeight.bold)),
+            content: const Text('Seal the mixture in a fermentation flask with an airlock (to allow CO2 to escape but prevent oxygen from entering). Incubate at about 30°C for 3 to 5 days. The yeast will consume the sugars and produce ethanol and carbon dioxide.'),
+            isActive: _currentStep >= 2,
+          ),
+          Step(
+            title: const Text('4. Distillation', style: TextStyle(fontWeight: FontWeight.bold)),
+            content: const Text('Once fermentation is complete, the liquid (broth) contains a low concentration of ethanol. Transfer the liquid to a distillation apparatus. Heat the mixture to around 78.37°C (boiling point of ethanol). The ethanol will vaporize, pass through the condenser, and collect as a concentrated liquid bioethanol.'),
+            isActive: _currentStep >= 3,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ConclusionScreen extends StatelessWidget {
+  const ConclusionScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Conclusion & Benefits', style: TextStyle(color: Colors.white)),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.green.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.green.shade200),
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.check_circle, color: Colors.green),
+                      SizedBox(width: 10),
+                      Text('Project Conclusion', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green)),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  Text(
+                    'The production of bioethanol from orange juice demonstrates a practical and eco-friendly method of generating renewable energy. By utilizing agricultural waste, we can reduce reliance on fossil fuels.',
+                    style: TextStyle(fontSize: 16, height: 1.5),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text('Key Benefits:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            _buildBenefitItem(Icons.recycling, 'Waste Reduction', 'Utilizes spoiled or waste citrus fruits.'),
+            _buildBenefitItem(Icons.energy_savings_leaf, 'Renewable Energy', 'Provides a sustainable alternative to petrol.'),
+            _buildBenefitItem(Icons.co2, 'Lower Emissions', 'Burns cleaner than traditional fossil fuels.'),
+            _buildBenefitItem(Icons.monetization_on, 'Cost Effective', 'Raw materials (waste) are cheap and abundant.'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBenefitItem(IconData icon, String title, String desc) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: Colors.green.shade700, size: 28),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(desc, style: TextStyle(fontSize: 14, color: Colors.grey.shade700)),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
